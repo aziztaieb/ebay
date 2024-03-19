@@ -1,0 +1,6 @@
+list1@blondmail.com
+list2@blondmail.com
+list3@blondmail.com
+list4@blondmail.com
+list5@blondmail.com
+list6@blondmail.com
