@@ -12,19 +12,17 @@ SPECIAL_LEN = random.randint(2, 5)
 def generate_password():
     digits_password = random_sub(string.digits, DIGITS_LEN)
     letters_password = random_sub(string.ascii_letters, LETTERS_LEN)
-    special_password = random_sub(string.punctuation, SPECIAL_LEN)
 
-    password_list = digits_password + letters_password + special_password
+    password_list = digits_password + letters_password 
     random.shuffle(password_list)
     password = ''.join(password_list)
     return password
 
 def generate_email(first_name):
       domains = [
-        "@blondmail.com", "@chapsmail.com", "@clowmail.com", "@dropjar.com", "@fivermail.com",
-        "@getairmail.com", "@getmule.com", "@getnada.com", "@gimpmail.com", "@givmail.com",
-        "@guysmail.com", "@inboxbear.com", "@replyloop.com", "@robot-mail.com", "@spicysoda.com",
-        "@tafmail.com", "@temptami.com", "@tupmail.com", "@vomoto.com"]
+        "@blondmail.com", "@chapsmail.com", "@clowmail.com", "@fivermail.com",
+        "@getairmail.com", "@getmule.com", "@getnada.com", "@gimpmail.com", 
+        "@guysmail.com","@temptami.com", "@tupmail.com"]
       username = first_name.lower() + ''.join(random.choices(string.ascii_lowercase + string.digits, k=random.randint(2, 6)))
       domain = random.choice(domains)
       return username + domain

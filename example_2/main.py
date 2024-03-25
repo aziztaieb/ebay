@@ -26,9 +26,7 @@ def register_account_cycle(port, repeats=20):
 
 
 def register_account(port, attempt, repeats):
-
-    proxy = get_proxy()
-    print(f"--proxy-server={proxy}")
+    proxy=""
     profile = Profile()
     profile_dir = f'{path}/profiles/{profile.get_email()}'
 
