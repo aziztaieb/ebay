@@ -20,9 +20,9 @@ def generate_password():
 
 def generate_email(first_name):
       domains = [
-        "@blondmail.com", "@chapsmail.com", "@clowmail.com", "@fivermail.com",
-        "@getairmail.com", "@getmule.com", "@getnada.com", "@gimpmail.com", 
-        "@guysmail.com","@temptami.com", "@tupmail.com"]
+        "@blondmail.com", "@chapsmail.com", "@clowmail.com"
+        "@getmule.com", "@gimpmail.com","@guysmail.com",
+        "@temptami.com", "@tupmail.com"]
       username = first_name.lower() + ''.join(random.choices(string.ascii_lowercase + string.digits, k=random.randint(2, 6)))
       domain = random.choice(domains)
       return username + domain

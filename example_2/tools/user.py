@@ -1,8 +1,6 @@
 import random
-from datetime import date
-import string
 import names
-from tools.utils import generate_password, generate_email, random_date
+from tools.utils import generate_password, generate_email
 
 
 

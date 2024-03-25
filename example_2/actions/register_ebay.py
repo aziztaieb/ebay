@@ -1,7 +1,7 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support.ui import WebDriverWait
 from tools.captchas import get_recaptcha_solve, solve_recaptcha
 from tools.shortcuts import fill_input, wait
 from tools.user import Profile
@@ -43,22 +43,30 @@ def get_code(html_content):
      else:
          return None 
      
-def wait_for_sms(phone):
+def wait_for_sms(id):
     sms = None
     attempts = 0
-    while not sms and attempts < 10:  
-        wait(10) 
+    while not sms and attempts < 10:
+        wait(10)
         print("[*] Checking for SMS...")
-        print(phone['id'])
-        result = client.check_order(order_id= phone['id'])
+        print(id)
+        result = client.check_order(order_id=id)
         print("[*] SMS Result:", result)
-        if len(result['sms']) > 5:
-            sms = get_code(result['sms'])  
-            if sms:
-                print(f"[*] SMS code: {sms}")
-                break
-        else: attempts += 1
-    return sms  
+        
+        sms_content = result.get('sms')  # Assuming sms content is in 'sms' key
+        if result['status']=="RECEIVED" and sms_content:  # Check if SMS content is not None
+            # If 'sms' key exists, it means SMS was received
+            for sms_data in sms_content:
+                code = sms_data.get('code')
+                if code:
+                    sms = code
+                    print(f"[*] SMS code: {sms}")
+                    break
+        else:
+            attempts += 1
+
+    return sms
+
  
 def ebay_phone_verification(driver): # select country from menu not working yet 
 
@@ -71,11 +79,10 @@ def ebay_phone_verification(driver): # select country from menu not working yet
     number = str(phone['phone'])
     number_tail = number[len(COUNTRY_NUMBER_CODE):]
 
-
     fill_input(driver, number_tail, By.XPATH, '//*[@id="phoneCountry"]')
     click_element(driver, By.ID, 'SEND_AUTH_CODE')
-
-    code = wait_for_sms(client)
+    wait(2)
+    code = wait_for_sms(phone['id'])
 
     fill_input(driver, code[0], By.XPATH, '//*[@id="pinbox-0"]')
     fill_input(driver, code[1], By.XPATH, '//*[@id="pinbox-1"]')
@@ -85,5 +92,5 @@ def ebay_phone_verification(driver): # select country from menu not working yet
     fill_input(driver, code[5], By.XPATH, '//*[@id="pinbox-5"]')
 
     print('[*] solving the hcaptcha')
-    wait(30)
+    wait(2)
 
